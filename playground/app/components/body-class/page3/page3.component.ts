@@ -1,5 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { BodyClassRenderer } from '../../../../../src/services';
+import { BodyClassRenderer } from '@firestitch/body';
 
 @Component({
   templateUrl: 'page3.component.html'

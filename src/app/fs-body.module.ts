@@ -1,6 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BodyClassRenderer } from './services';
+import { BodyClassRenderer } from './services/body-service-renderer.service';
 
 @NgModule({
   imports: [
