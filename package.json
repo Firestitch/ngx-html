@@ -2,7 +2,7 @@
   "name": "@firestitch/body",
   "title": "Body",
   "description": "@firestitch/body",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-body"
@@ -15,9 +15,6 @@
     "angular"
   ],
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Firestitch/ngx-body/issues"
-  },
   "main": "package/index.js",
   "typings": "package/index.d.ts",
   "scripts": {

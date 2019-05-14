@@ -30,7 +30,7 @@ const routes: Routes = [
         {
           path: 'page1',
           component: BodyClassPage1Component,
-          data: { bodyClass: 'body-class-page1' }
+          data: { bodyClass: 'body-class-page1 without-prefix' }
         },
         {
           path: 'page2',
