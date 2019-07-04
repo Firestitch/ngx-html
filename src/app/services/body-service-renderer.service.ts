@@ -1,16 +1,17 @@
-import { Injectable, RendererFactory2 } from '@angular/core';
-import { ActivationEnd, ActivationStart, Router } from '@angular/router';
+import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
+import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot, NavigationStart } from '@angular/router';
 import { filter } from 'rxjs/operators';
 
 
 @Injectable()
 export class BodyClassRenderer {
   private bodyClassListener;
-  private _renderer;
+  private _renderer: Renderer2;
 
   constructor(private _router: Router,
-              rendererFactory: RendererFactory2) {
-    this._renderer = rendererFactory.createRenderer(null, null);
+              private _rendererFactory: RendererFactory2,
+              private _route: ActivatedRoute) {
+    this._renderer = _rendererFactory.createRenderer(null, null);
   }
 
   get renderer() {
@@ -28,11 +29,12 @@ export class BodyClassRenderer {
   }
 
   public addBodyClass(cls) {
-    this._renderer.addClass(document.body, cls);
+
+    this._renderer.addClass(document.body, this._sanitizeClass(cls));
   }
 
   public removeBodyClass(cls) {
-    this.renderer.removeClass(document.body, cls);
+    this.renderer.removeClass(document.body, this._sanitizeClass(cls));
   }
 
   public init() {
@@ -40,55 +42,53 @@ export class BodyClassRenderer {
     this.bodyClassListener = this._router
       .events
       .pipe(
-        filter( event => event instanceof ActivationStart ||
-                event instanceof ActivationEnd)
+        filter( event => event instanceof NavigationEnd || event instanceof NavigationStart)
       )
       .subscribe((event) => {
 
-        if (event instanceof ActivationStart) {
-
-          const parentRouteBodyClasses = this.getParentRouteBodyClasses(event.snapshot);
+        //if (event instanceof NavigationEnd) {
 
           document.body.className.split(' ')
           .forEach((name) => {
-            if (name.match(/^body-/) &&
-                parentRouteBodyClasses.indexOf(name) < 0) {
+            if (name.match(/^body-/)) {
               this.removeBodyClass(name);
             }
           });
 
-        } else if (event instanceof ActivationEnd) {
-          const data = event.snapshot.routeConfig.data;
-          if (data && data.bodyClass) {
-
-            this.parseBodyClasses(data.bodyClass).forEach(cls => {
-              this.addBodyClass(cls);
-            });
-          }
-        }
-
+          this._getBodyClasses(this._route.snapshot.firstChild)
+          .forEach(cls => {
+            this.addBodyClass(cls);
+          });
+        //}
       });
   }
 
-  private parseBodyClasses(data) {
-    return data.split(/[\s,]/).filter(Boolean)
-    .map((cls) => {
-      return cls.indexOf('body-') === 0 ? cls : 'body-' + cls;
-    });
+  private _getBodyClasses(activatedRoute: ActivatedRouteSnapshot) {
+    const bodyClasses = [];
+
+    if (activatedRoute) {
+      if (activatedRoute.data && activatedRoute.data.bodyClass) {
+        bodyClasses.push(...this._parseBodyClasses(activatedRoute.data.bodyClass));
+      }
+
+      if (activatedRoute.firstChild) {
+        bodyClasses.push(...this._getBodyClasses(activatedRoute.firstChild));
+      }
+    }
+
+    return bodyClasses;
   }
 
-  private getParentRouteBodyClasses(route) {
-    const classes = [];
+  private _parseBodyClasses(data) {
+    return data.split(/[\s,]/).filter(Boolean);
+  }
 
-    if (route.data && route.data.bodyClass) {
-      const bodyClasses = this.parseBodyClasses(route.data.bodyClass);
-      classes.push(...bodyClasses);
+  private _sanitizeClass(cls) {
+
+    if (cls.indexOf('body-') === -1) {
+      return 'body-' + cls;
     }
 
-    if (route.parent && route.parent) {
-      classes.push(...this.getParentRouteBodyClasses(route.parent));
-    }
-
-    return classes;
+    return cls;
   }
 }

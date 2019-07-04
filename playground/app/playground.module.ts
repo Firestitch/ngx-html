@@ -22,7 +22,7 @@ import {
 
 
 const routes: Routes = [
-  { path: '', component: ExamplesComponent },
+  { path: '', component: ExamplesComponent, data: { bodyClass: 'body-home' } },
   {
     path: 'body/class', component: BodyClassComponent, data: { bodyClass: 'body-class-parent' },
     children:
