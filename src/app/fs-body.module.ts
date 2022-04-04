@@ -24,7 +24,7 @@ export class FsBodyModule {
     this.bodyClassRenderer.init();
   }
 
-  static forRoot(): ModuleWithProviders {
+  static forRoot(): ModuleWithProviders<FsBodyModule> {
     return {
       ngModule: FsBodyModule,
       providers: [BodyClassRenderer]
