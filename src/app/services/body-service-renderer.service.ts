@@ -5,12 +5,15 @@ import { filter } from 'rxjs/operators';
 
 @Injectable()
 export class BodyClassRenderer {
+
   private bodyClassListener;
   private _renderer: Renderer2;
 
-  constructor(private _router: Router,
-              private _rendererFactory: RendererFactory2,
-              private _route: ActivatedRoute) {
+  constructor(
+    private _router: Router,
+    private _rendererFactory: RendererFactory2,
+    private _route: ActivatedRoute
+  ) {
     this._renderer = _rendererFactory.createRenderer(null, null);
   }
 
@@ -28,26 +31,29 @@ export class BodyClassRenderer {
     }
   }
 
-  public addBodyClass(cls) {
+  public addClass(cls) {
+    this._renderer.addClass(document.body, cls);
+  }
 
-    this._renderer.addClass(document.body, this._sanitizeClass(cls));
+  public removeClass(cls) {
+    this.renderer.removeClass(document.body, cls);
+  }
+
+  public addBodyClass(cls) {
+    this.addClass(this._sanitizeClass(cls));
   }
 
   public removeBodyClass(cls) {
-    this.renderer.removeClass(document.body, this._sanitizeClass(cls));
+    this.removeClass(this._sanitizeClass(cls));
   }
 
   public init() {
-
     this.bodyClassListener = this._router
       .events
       .pipe(
         filter( event => event instanceof NavigationEnd || event instanceof NavigationStart)
       )
       .subscribe((event) => {
-
-        //if (event instanceof NavigationEnd) {
-
           document.body.className.split(' ')
           .forEach((name) => {
             if (name.match(/^body-/)) {
@@ -59,13 +65,11 @@ export class BodyClassRenderer {
           .forEach(cls => {
             this.addBodyClass(cls);
           });
-        //}
       });
   }
 
   private _getBodyClasses(activatedRoute: ActivatedRouteSnapshot) {
     const bodyClasses = [];
-
     if (activatedRoute) {
       if (activatedRoute.data && activatedRoute.data.bodyClass) {
         bodyClasses.push(...this._parseBodyClasses(activatedRoute.data.bodyClass));
