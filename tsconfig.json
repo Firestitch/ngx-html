@@ -2,7 +2,7 @@
   "extends": "./node_modules/@firestitch/component-tools/config/tsconfig.cli.json",
   "compilerOptions": {
     "paths": {
-      "@firestitch/connection": [
+      "@firestitch/body": [
         "src/public_api.ts"
       ]
     }
