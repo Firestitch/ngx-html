@@ -1,16 +1,14 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule, Routes } from '@angular/router';
 
 import { FsBodyModule } from '@firestitch/body';
 import { FsExampleModule } from '@firestitch/example';
 import { FsMessageModule } from '@firestitch/message';
-import { ToastrModule } from 'ngx-toastr';
 
 import { AppComponent } from './app.component';
-import { AppMaterialModule } from './material.module';
 import {
   BodyClassComponent,
   BodyClassPage1Component,
@@ -19,6 +17,7 @@ import {
   ExampleComponent,
   ExamplesComponent
 } from './components';
+import { AppMaterialModule } from './material.module';
 
 
 const routes: Routes = [
@@ -52,7 +51,6 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
     FsExampleModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
     FsMessageModule.forRoot(),
   ],
   entryComponents: [],
