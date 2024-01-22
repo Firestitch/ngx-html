@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { HtmlClassRenderer } from '@firestitch/body';
+import { HtmlClassRenderer, HtmlRenderer } from '@firestitch/body';
 
 
 @Component({
@@ -14,8 +14,9 @@ export class ExampleComponent {
 
   constructor(
     private _htmlClassRenderer: HtmlClassRenderer,
+    private _htmlRenderer: HtmlRenderer,
   ) {
-    this._htmlClassRenderer.addStyle('body { background: #0027ff33; }', { id: 'styles' });
+    this._htmlRenderer.addStyle('body { background: #0027ff33; }', { id: 'styles' });
   }
 
   public toogleHtmlClass(): void {

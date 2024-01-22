@@ -1,3 +1,4 @@
-export * from './html-service-renderer.service';
-export * from './body-service-renderer.service';
+export * from './body-class-renderer.service';
+export * from './html-class-renderer.service';
+export * from './html-renderer.service';
 
