@@ -1,33 +1,36 @@
-import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
-import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot, NavigationStart } from '@angular/router';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
+import {
+  ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, NavigationStart, Router,
+} from '@angular/router';
+
 import { filter } from 'rxjs/operators';
 
 
 @Injectable()
 export class BodyClassRenderer {
 
-  private bodyClassListener;
+  private _bodyClassListener;
   private _renderer: Renderer2;
 
   constructor(
     private _router: Router,
     private _rendererFactory: RendererFactory2,
-    private _route: ActivatedRoute
+    private _route: ActivatedRoute,
   ) {
     this._renderer = _rendererFactory.createRenderer(null, null);
   }
 
-  get renderer() {
+  public get renderer() {
     return this._renderer;
   }
 
-  set renderer(val) {
+  public set renderer(val) {
     this._renderer = val;
   }
 
   public destroy() {
-    if (this.bodyClassListener) {
-      this.bodyClassListener.unsubscribe();
+    if (this._bodyClassListener) {
+      this._bodyClassListener.unsubscribe();
     }
   }
 
@@ -48,21 +51,21 @@ export class BodyClassRenderer {
   }
 
   public init() {
-    this.bodyClassListener = this._router
+    this._bodyClassListener = this._router
       .events
       .pipe(
-        filter( event => event instanceof NavigationEnd || event instanceof NavigationStart)
+        filter( (event) => event instanceof NavigationEnd || event instanceof NavigationStart),
       )
       .subscribe((event) => {
-          document.body.className.split(' ')
+        document.body.className.split(' ')
           .forEach((name) => {
             if (name.match(/^body-/)) {
               this.removeBodyClass(name);
             }
           });
 
-          this._getBodyClasses(this._route.snapshot.firstChild)
-          .forEach(cls => {
+        this._getBodyClasses(this._route.snapshot.firstChild)
+          .forEach((cls) => {
             this.addBodyClass(cls);
           });
       });
@@ -90,7 +93,7 @@ export class BodyClassRenderer {
   private _sanitizeClass(cls) {
 
     if (cls.indexOf('body-') === -1) {
-      return 'body-' + cls;
+      return `body-${  cls}`;
     }
 
     return cls;

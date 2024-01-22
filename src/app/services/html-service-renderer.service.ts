@@ -1,4 +1,4 @@
-import { Injectable, RendererFactory2, Renderer2 } from '@angular/core';
+import { Injectable, Renderer2, RendererFactory2 } from '@angular/core';
 
 
 @Injectable({
@@ -14,11 +14,11 @@ export class HtmlClassRenderer {
     this._renderer = _rendererFactory.createRenderer(null, null);
   }
 
-  get renderer() {
+  public get renderer() {
     return this._renderer;
   }
 
-  set renderer(val) {
+  public set renderer(val) {
     this._renderer = val;
   }
 
@@ -28,6 +28,21 @@ export class HtmlClassRenderer {
 
   public removeClass(cls) {
     this.renderer.removeClass(document.documentElement, cls);
+  }
+
+  public addStyle(styles, options?: { id?: string }): void {
+    const id = options?.id ? ` id="${options?.id}"` : '';
+
+    if(options?.id) {
+      const el = document.querySelector(`#${options?.id}`);
+      if(el) {
+        el.innerHTML = styles;
+
+        return;
+      }
+    }
+
+    document.head.insertAdjacentHTML('beforeend', `<style${id}>${styles}</style>`);
   }
 
 }
