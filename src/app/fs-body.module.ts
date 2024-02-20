@@ -4,20 +4,12 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { BodyClassRenderer } from './services/body-class-renderer.service';
 
 @NgModule({
-  imports: [
-    CommonModule,
-  ],
-  exports: [
-
-  ],
-  entryComponents: [
-  ],
-  declarations: [
-
-  ],
-  providers: [
-
-  ],
+    imports: [
+        CommonModule,
+    ],
+    exports: [],
+    declarations: [],
+    providers: []
 })
 export class FsBodyModule {
 
