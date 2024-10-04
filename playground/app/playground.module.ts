@@ -49,7 +49,7 @@ const routes: Routes = [
         BrowserAnimationsModule,
         AppMaterialModule,
         FormsModule,
-        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(routes, {}),
         FsExampleModule.forRoot(),
         FsMessageModule.forRoot(),
     ],
