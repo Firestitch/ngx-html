@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import { ModuleWithProviders, NgModule, inject } from '@angular/core';
 
 import { BodyClassRenderer } from './services/body-class-renderer.service';
 
@@ -12,8 +12,10 @@ import { BodyClassRenderer } from './services/body-class-renderer.service';
     providers: []
 })
 export class FsBodyModule {
+  private bodyClassRenderer = inject(BodyClassRenderer);
 
-  constructor(private bodyClassRenderer: BodyClassRenderer) {
+
+  constructor() {
     this.bodyClassRenderer.init();
   }
 

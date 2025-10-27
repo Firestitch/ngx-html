@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { HtmlClassRenderer, HtmlRenderer } from '@firestitch/body';
 import { MatButton } from '@angular/material/button';
@@ -13,13 +13,13 @@ import { RouterLink } from '@angular/router';
     imports: [MatButton, RouterLink],
 })
 export class ExampleComponent {
+  private _htmlClassRenderer = inject(HtmlClassRenderer);
+  private _htmlRenderer = inject(HtmlRenderer);
+
 
   public htmlClass = false;
 
-  constructor(
-    private _htmlClassRenderer: HtmlClassRenderer,
-    private _htmlRenderer: HtmlRenderer,
-  ) {
+  constructor() {
     this._htmlRenderer.addStyle('body { background: #0027ff33; }', { id: 'styles' });
   }
 

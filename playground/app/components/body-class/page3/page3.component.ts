@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { BodyClassRenderer } from '@firestitch/body';
 import { MatButton } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
@@ -9,10 +9,10 @@ import { RouterLink } from '@angular/router';
     imports: [MatButton, RouterLink]
 })
 export class BodyClassPage3Component implements OnInit {
+  private bodyClassRenderer = inject(BodyClassRenderer);
+
 
   public bodyClasses;
-
-  constructor(private bodyClassRenderer: BodyClassRenderer) {}
 
   public ngOnInit() {
     this.bodyClassRenderer.addBodyClass('body-class-page3');
