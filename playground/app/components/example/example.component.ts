@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { HtmlClassRenderer, HtmlRenderer } from '@firestitch/body';
+import { MatButton } from '@angular/material/button';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
-  selector: 'example',
-  templateUrl: './example.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'example',
+    templateUrl: './example.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [MatButton, RouterLink],
 })
 export class ExampleComponent {
 
